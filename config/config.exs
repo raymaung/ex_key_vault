@@ -27,4 +27,9 @@ use Mix.Config
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env}.exs"
+config :ex_key_vault,
+  tenant_id: System.get_env("EX_KV_TENANT_ID"),
+  application_id: System.get_env("EX_KV_APPLICATION_ID"),
+  application_secret_key: System.get_env("EX_KV_APPLICATION_SECRET")
+
+import_config "#{Mix.env}.exs"
