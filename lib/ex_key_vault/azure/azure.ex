@@ -1,11 +1,11 @@
-defmodule ExKeyVault.Azure.HttpClient do
+defmodule ExKeyVault.Azure do
 
   alias HTTPoison.Response
   alias HTTPoison.Error
 
   alias ExKeyVault.Azure.AccessToken
-
   alias ExKeyVault.Azure.AccessTokenRequest
+  alias ExKeyVault.Azure.SecretRequest
 
   def get_access_token() do
     with {:ok, %Response{body: body}} <- AccessTokenRequest.post(),
@@ -20,6 +20,10 @@ defmodule ExKeyVault.Azure.HttpClient do
       _error ->
         raise("Unknown Error")
     end
+  end
+
+  def get_secret(%AccessToken{} = access_token) do
+    SecretRequest.get(access_token)
   end
 
   defp decode_response(response) do
