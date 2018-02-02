@@ -1,6 +1,5 @@
 defmodule ExKeyVault.Azure.AccessTokenTest do
   use ExUnit.Case
-  doctest ExKeyVault
 
   alias ExKeyVault.Azure.AccessToken
 

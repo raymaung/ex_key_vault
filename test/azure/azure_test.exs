@@ -3,6 +3,7 @@ defmodule ExKeyVault.AzureTest do
 
   alias ExKeyVault.Azure
   alias ExKeyVault.Azure.AccessToken
+  alias ExKeyVault.Azure.Secret
 
   @tag :azure_api
   test "request access token" do
@@ -12,6 +13,6 @@ defmodule ExKeyVault.AzureTest do
   @tag :azure_api_wip
   test "request secret" do
     {:ok, access_token} = Azure.get_access_token()
-    assert {:ok, _} = Azure.get_secret(access_token)
+    assert {:ok, %Secret{}} = Azure.get_secret(access_token)
   end
 end
