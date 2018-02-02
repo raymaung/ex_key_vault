@@ -1,12 +1,14 @@
-defmodule ExKeyVault.Azure do
+defmodule ExKeyVault.Azure.HttpClient do
 
   alias HTTPoison.Response
   alias HTTPoison.Error
 
-  alias ExKeyVault.Config
+  alias ExKeyVault.Azure.AccessToken
+
+  alias ExKeyVault.Azure.AccessTokenRequest
 
   def get_access_token() do
-    with {:ok, %Response{body: body}} <- post_auth_token(),
+    with {:ok, %Response{body: body}} <- AccessTokenRequest.post(),
          {:ok, response} <- Poison.decode(body),
          {:ok, access_token} <- decode_response(response) do
           {:ok, access_token}
@@ -20,25 +22,13 @@ defmodule ExKeyVault.Azure do
     end
   end
 
-  defp post_auth_token() do
-    url = "https://login.microsoftonline.com/#{Config.tenant_id}/oauth2/token"
-
-    body = {:form,
-      grant_type: "client_credentials",
-      client_id: Config.application_id,
-      client_secret: Config.application_secret_key,
-      resource: "https://vault.azure.net"
-    }
-
-    HTTPoison.post(url, body)
-  end
-
   defp decode_response(response) do
     case response do
       %{"error" => _error_type, "error_description" => error_description} ->
         {:error, error_description}
-      success_response ->
-        {:ok, response["access_token"]}
+      response ->
+        {:ok, AccessToken.from_response(response)}
     end
   end
 end
+
