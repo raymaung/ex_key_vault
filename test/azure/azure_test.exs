@@ -12,7 +12,8 @@ defmodule ExKeyVault.AzureTest do
 
   @tag :azure_api_wip
   test "request secret" do
+    secret_uri = "https://wow-exd-dev-key-mgt-aae.vault.azure.net/secrets/exd-dbp-ServiceUser-dv0/f235b5082017475a94f55447243af3b4"
     {:ok, access_token} = Azure.get_access_token()
-    assert {:ok, %Secret{}} = Azure.get_secret(access_token)
+    assert {:ok, %Secret{}} = Azure.get_secret(access_token, secret_uri)
   end
 end

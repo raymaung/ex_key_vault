@@ -14,9 +14,9 @@ defmodule ExKeyVault.Azure do
     |> handle_response(&AccessToken.from_response/1)
   end
 
-  def get_secret(%AccessToken{} = access_token) do
+  def get_secret(%AccessToken{} = access_token, secret_uri) do
     access_token
-    |> SecretRequest.get
+    |> SecretRequest.get(secret_uri)
     |> handle_response(&Secret.from_response/1)
   end
 
