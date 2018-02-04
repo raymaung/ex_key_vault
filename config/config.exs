@@ -30,6 +30,7 @@ use Mix.Config
 config :ex_key_vault,
   tenant_id: System.get_env("EX_KV_TENANT_ID"),
   application_id: System.get_env("EX_KV_APPLICATION_ID"),
-  application_secret_key: System.get_env("EX_KV_APPLICATION_SECRET")
+  application_secret_key: System.get_env("EX_KV_APPLICATION_SECRET"),
+  azure_api: ExKeyVault.Azure
 
 import_config "#{Mix.env}.exs"

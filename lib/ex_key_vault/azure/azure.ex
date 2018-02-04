@@ -9,8 +9,8 @@ defmodule ExKeyVault.Azure do
   alias ExKeyVault.Azure.Secret
   alias ExKeyVault.Azure.SecretRequest
 
-  def get_access_token() do
-    AccessTokenRequest.post()
+  def get_access_token(params) do
+    AccessTokenRequest.post(params)
     |> handle_response(&AccessToken.from_response/1)
   end
 

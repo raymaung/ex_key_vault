@@ -1,4 +1,4 @@
-defmodule ExKeyVault.Azure.SecreteTest do
+defmodule ExKeyVault.Azure.SecretTest do
   use ExUnit.Case
 
   alias ExKeyVault.Azure.Secret
