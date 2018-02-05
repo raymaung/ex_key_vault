@@ -5,13 +5,14 @@ defmodule ExKeyVault.KeyVault do
   @azure_api Application.get_env :ex_key_vault, :azure_api
 
   defstruct [
+    azure_config: nil,
     access_token: nil,
     secret_uris: nil,
     secrets: nil
   ]
 
-  def new(secret_uris) do
-    %KeyVault{secret_uris: secret_uris}
+  def new(secret_uris, azure_config \\ %{}) do
+    %KeyVault{azure_config: azure_config, secret_uris: secret_uris}
   end
 
   def fetch(%KeyVault{} = key_vault) do
@@ -21,7 +22,7 @@ defmodule ExKeyVault.KeyVault do
   end
 
   defp fetch_access_token(%KeyVault{} = key_vault) do
-    {:ok, access_token} = azure_config() |> @azure_api.get_access_token()
+    {:ok, access_token} = key_vault.azure_config |> @azure_api.get_access_token()
     %KeyVault{key_vault | access_token: access_token}
   end
 
@@ -35,13 +36,5 @@ defmodule ExKeyVault.KeyVault do
         end)
 
     %KeyVault{key_vault | secrets: secrets}
-  end
-
-  defp azure_config do
-    %{
-      tenant_id: Application.get_env(:ex_key_vault, :tenant_id),
-      application_id: Application.get_env(:ex_key_vault, :application_id),
-      application_secret_key: Application.get_env(:ex_key_vault, :application_secret_key)
-    }
   end
 end
