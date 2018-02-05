@@ -2,14 +2,7 @@ defmodule ExKeyVault.KeyVault do
 
   alias __MODULE__
 
-  alias ExKeyVault.Config
-
   @azure_api Application.get_env :ex_key_vault, :azure_api
-  @azure_config %{
-    tenant_id: Config.tenant_id,
-    application_id: Config.application_id,
-    application_secret_key: Config.application_secret_key
-  }
 
   defstruct [
     access_token: nil,
@@ -28,7 +21,7 @@ defmodule ExKeyVault.KeyVault do
   end
 
   defp fetch_access_token(%KeyVault{} = key_vault) do
-    {:ok, access_token} = @azure_api.get_access_token(@azure_config)
+    {:ok, access_token} = azure_config() |> @azure_api.get_access_token()
     %KeyVault{key_vault | access_token: access_token}
   end
 
@@ -42,5 +35,13 @@ defmodule ExKeyVault.KeyVault do
         end)
 
     %KeyVault{key_vault | secrets: secrets}
+  end
+
+  defp azure_config do
+    %{
+      tenant_id: Application.get_env(:ex_key_vault, :tenant_id),
+      application_id: Application.get_env(:ex_key_vault, :application_id),
+      application_secret_key: Application.get_env(:ex_key_vault, :application_secret_key)
+    }
   end
 end
