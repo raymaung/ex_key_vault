@@ -7,6 +7,7 @@ defmodule ExKeyVault.MixProject do
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
+      elixirc_paths: elixirc_paths(Mix.env),
       deps: deps()
     ]
   end
@@ -25,4 +26,7 @@ defmodule ExKeyVault.MixProject do
       {:httpoison, "~> 1.0"}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 end

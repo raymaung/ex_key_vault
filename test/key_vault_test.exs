@@ -4,10 +4,10 @@ defmodule KeyVaultTest do
   alias ExKeyVault.KeyVault
 
   @secret_uris [
-    "https://wow-exd-dev-key-mgt-aae.vault.azure.net/secrets/exd-dbp-ServiceUser-dv0/f235b5082017475a94f55447243af3b4"
+    "https://secret-uri-1",
+    "https://secret-uri-2",
   ]
 
-  @tag :integration
   test "fetch secrets" do
     key_vault =
       @secret_uris
@@ -15,6 +15,6 @@ defmodule KeyVaultTest do
       |> KeyVault.fetch
 
     assert key_vault.access_token != nil
-    assert key_vault.secrets |> Enum.count == 1
+    assert key_vault.secrets |> Enum.count == 2
   end
 end
